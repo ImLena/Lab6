@@ -27,6 +27,8 @@ public class CSVToFile {
             System.out.println("This file doesn't exist");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e){
+            System.out.println("Collection is empty");
         }
     }
 }

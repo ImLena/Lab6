@@ -62,7 +62,6 @@ public class TicketMap implements Comparable<Ticket>, Serializable {
         id += 1;
         setId(id);
         ticket.setId(id);
-        //ticket.check();
         Tickets.put(id, ticket);
     }
 
@@ -71,20 +70,11 @@ public class TicketMap implements Comparable<Ticket>, Serializable {
         id = id;
     }
 
-    public static Long getId() {
-        return id;
-    }
-
-
     public static LinkedHashMap<Long, Ticket> getTickets() {
         return Tickets;
     }
 
-    public static void putTickets(Long key, Ticket tickets) {
-        Tickets.put(key, tickets);
-    }
-
-    public static void clear(SocketChannel channel) {
+    public static void clear() {
         Tickets.clear();
     }
 
@@ -135,7 +125,7 @@ public class TicketMap implements Comparable<Ticket>, Serializable {
 
     public static void remove(Long id, SocketChannel channel) throws IOException {
         Tickets.remove(id);
-        Server.answer(channel,"Element" + id + "removed");
+        Server.answer(channel,"Element " + id + " removed");
 
     }
 
@@ -144,9 +134,13 @@ public class TicketMap implements Comparable<Ticket>, Serializable {
     }
 
     public static void replace_if_greater(Long id, Ticket tic, SocketChannel channel) throws IOException {
-        if (Tickets.get(id).compareTo(tic) > 0) {
-           Tickets.put(id, tic);
-           Server.answer(channel, "Element " + id + " replaced");
+        if (Tickets.containsKey(id)){
+            if (Tickets.get(id).compareTo(tic) > 0) {
+                Tickets.put(id, tic);
+                Server.answer(channel, "Element " + id + " replaced");
+            }else{
+                 Server.answer(channel, "Element didn't removed");
+                }
         } else {
             Server.answer(channel, "There's no element with such key. To add a new element use command insert");
         }

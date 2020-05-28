@@ -13,7 +13,7 @@ public class CommandReceiver {
     }
 
     public void clear() {
-        TicketMap.clear(channel);
+        TicketMap.clear();
     }
 
     public void info() throws IOException {

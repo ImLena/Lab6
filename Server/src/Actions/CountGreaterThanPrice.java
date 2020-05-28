@@ -24,6 +24,7 @@ public class CountGreaterThanPrice extends Command {
         }catch (NumberFormatException e){
             Server.answer(channel, "Wrong type of price, enter command again");
         } catch (NullPointerException e){
+            System.out.println("Price expected");
 
         }
     }

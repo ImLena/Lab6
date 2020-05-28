@@ -34,7 +34,7 @@ public class CommandCollection implements Serializable {
         commands.put("insert", insert);
         commands.put("min_by_creation_date", mbcd);
         commands.put("print_descending", pd);
-        commands.put("remove", remove);
+        commands.put("remove_key", remove);
         commands.put("remove_greater", rg);
         commands.put("replace_if_greater", rig);
         commands.put("show", show);
