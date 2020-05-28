@@ -23,6 +23,10 @@ public class Update extends Command {
 
     @Override
     protected void execute(String[] args, Scanner in) throws IOException {
-        commandReceiver.update(args, in);
+        if (args.length>1){
+            commandReceiver.update(args, in);
+        }else {
+            System.out.println("Enter file name after command");
+        }
     }
 }

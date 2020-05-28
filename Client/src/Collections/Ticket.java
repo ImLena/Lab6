@@ -32,6 +32,10 @@ public class Ticket implements Comparable, Serializable {
         checkId();
     }
 
+    public Long getId(){
+        return id;
+    }
+
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
         checkDate();

@@ -23,6 +23,10 @@ public class Remove extends Command {
 
     @Override
     protected void execute(String[] args, Scanner in) throws IOException {
-        commandReceiver.remove(args);
+        if (args.length>1){
+            commandReceiver.remove(args);
+        }else {
+            System.out.println("Enter file name after command");
+        }
     }
 }

@@ -20,16 +20,4 @@ public class ReadCommand implements Serializable {
         this.tic = tic;
     }
 
-    public Command getComm() {
-        return comm;
-    }
-
-    public Ticket getTicket() {
-        return tic;
-    }
-
-    public String getStrArgs() {
-        return strArgs;
-    }
-
 }

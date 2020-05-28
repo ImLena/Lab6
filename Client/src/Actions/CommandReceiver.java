@@ -51,13 +51,16 @@ public class CommandReceiver{
         Client.getMessage(channel);
     }
 
-    public void insert(String[] command, Scanner in) throws IOException, ClassNotFoundException, InterruptedException {
+    public void insert(String[] command, Scanner in) throws IOException, InterruptedException, ClassNotFoundException {
         Ticket tic = e.enter(command, in);
-        String id = command[0];
-        ReadCommand rc = new ReadCommand(commandInvoker.getCommand("insert"), id, tic);
+        if (command.length > 1){
+        ReadCommand rc = new ReadCommand(commandInvoker.getCommand("insert"), tic.getId().toString(), tic);
         Client.writeCommand(channel, rc);
         Thread.sleep(delay);
         Client.getMessage(channel);
+        } else{
+            System.out.println("Enter key after 'inset'");
+        }
     }
 
     public void min_by_creation_date() throws IOException, InterruptedException, ClassNotFoundException {
@@ -78,7 +81,7 @@ public class CommandReceiver{
         try{
             if (args.length > 1) {
                 Long id = Long.valueOf(args[1]);
-                ReadCommand rc = new ReadCommand(commandInvoker.getCommand("remove"), String.valueOf(id), null);
+                ReadCommand rc = new ReadCommand(commandInvoker.getCommand("remove_key"), String.valueOf(id), null);
                 Client.writeCommand(channel, rc);
                 Thread.sleep(delay);
                 Client.getMessage(channel);
@@ -125,7 +128,7 @@ public class CommandReceiver{
         try {
             if (com.length > 1) {
                 float price = Float.parseFloat(com[1]);
-                ReadCommand rc = new ReadCommand(commandInvoker.getCommand("remove_greater"), com[1], null);
+                ReadCommand rc = new ReadCommand(commandInvoker.getCommand("count_greater_than_price"), com[1], null);
                 Client.writeCommand(channel, rc);
                 Thread.sleep(delay);
                 Client.getMessage(channel);

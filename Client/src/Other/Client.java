@@ -8,12 +8,13 @@ import java.nio.channels.SocketChannel;
 import java.util.Scanner;
 
 public class Client {
-    private static final int serverPort = 9999;
+    private static final int serverPort = 8080;
     private static final String localhost = "127.0.0.1";
+    private static SocketChannel channel;
 
     public static void client(String[] args){
         CommandInvoker commandInvoker = new CommandInvoker();
-        SocketChannel channel = null;
+        channel = null;
         InetSocketAddress ip = new InetSocketAddress(localhost, serverPort);
 
         try{
@@ -44,12 +45,11 @@ public class Client {
             commandInvoker.addCom("insert", insert);
             commandInvoker.addCom("min_by_creation_date", mbcd);
             commandInvoker.addCom("print_descending", pd);
-            commandInvoker.addCom("remove", remove);
+            commandInvoker.addCom("remove_key", remove);
             commandInvoker.addCom("remove_greater", rg);
             commandInvoker.addCom("replace_if_greater", rig);
             commandInvoker.addCom("show", show);
             commandInvoker.addCom("update", update);
-            System.out.println(commandInvoker.getCommands().isEmpty());
             Reader r = new BufferedReader(new InputStreamReader(System.in));
             Scanner in = new Scanner(r);
             writeMessage(channel, args[0]);
@@ -99,5 +99,9 @@ public class Client {
         oos.writeObject(str);
         byte[] data = baos.toByteArray();
         channel.write(ByteBuffer.wrap(data));
+    }
+
+    public static void closeChannel() throws IOException {
+        channel.close();
     }
 }

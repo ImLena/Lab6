@@ -18,11 +18,7 @@ public class Insert extends Command {
     public void help(){
         System.out.println("insert key {element} - add element by key");
     }
-    public void execute(String[] args, Scanner in) {
-        try {
-            commandReceiver.insert(args, in);
-        } catch (NumberFormatException | IOException | ClassNotFoundException | InterruptedException e) {
-            System.out.println("Not correct key");
-        }
+    public void execute(String[] args, Scanner in) throws InterruptedException, IOException, ClassNotFoundException {
+                    commandReceiver.insert(args, in);
     }
 }

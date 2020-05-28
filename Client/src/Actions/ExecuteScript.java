@@ -22,7 +22,11 @@ public class ExecuteScript extends Command {
 
     @Override
     protected void execute(String[] args, Scanner in) {
-        commandReceiver.execute_script(args[1]);
+        if (args.length > 1) {
+            commandReceiver.execute_script(args[1]);
+        }else {
+            System.out.println("Enter file name after command");
+        }
     }
 
 }

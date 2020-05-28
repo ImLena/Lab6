@@ -1,5 +1,7 @@
 package Actions;
 
+import Other.Client;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -15,6 +17,7 @@ public class CommandInvoker {
                 Command command = commands.get(commandName[0]);
                 if (commandName[0].equals("exit")) {
                     System.out.println("Channel is closed. good bye!");
+                    Client.closeChannel();
                     System.exit(0);
                 }
                 command.execute(commandName, in);

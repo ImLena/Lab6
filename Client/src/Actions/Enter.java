@@ -19,47 +19,44 @@ public class Enter implements Serializable {
     private Person person = new Person();
     private Date creationDate = new Date();
 
-    TicketMap tm;
 
     public Enter(){
 
     }
 
     public Ticket enter(String[] s, Scanner in){
-        if (s.length == 1){
-            enterId(in);
-        } else{
-            enterId(Long.valueOf(s[1]), in);
+        try {
+            if (s.length == 1) {
+                enterId(in);
+            } else {
+                enterId(Long.valueOf(s[1]), in);
+            }
+            entername(in);
+            entercoordsx(in);
+            entercoordsy(in);
+            entercoords();
+            enterprice(in);
+            entertype(in);
+            enterheight(in);
+            enterln(in);
+            enterxloc(in);
+            enteryloc(in);
+            enterzloc(in);
+            enterloc();
+            enterperson();
+            enterdate();
+        }catch (NumberFormatException e){
+            System.out.println("Long ID expected");
         }
-        entername(in);
-        entercoordsx(in);
-        entercoordsy(in);
-        entercoords();
-        enterprice(in);
-        entertype(in);
-        enterheight(in);
-        enterln(in);
-        enterxloc(in);
-        enteryloc(in);
-        enterzloc(in);
-        enterloc();
-        enterperson();
-        enterdate();
+            return ticket;
 
-        return ticket;
     }
-
 
     public void enterId(Scanner in){
         System.out.println("Enter ID (Long, >0)");
         try {
             Long id = Long.valueOf(in.nextLine());
-            if (id > tm.getId()) {
                 enterId(id, in);
-            }else{
-                System.out.println("Please, enter id more than " + tm.getId());
-                enterId(in);
-            }
         }catch (InputMismatchException e){
             System.out.println("Wrong type, try again");
             enterId(in);

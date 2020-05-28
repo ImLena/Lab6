@@ -23,6 +23,10 @@ public class ReplaceIfGreater extends Command {
 
     @Override
     protected void execute(String[] args, Scanner in) throws IOException, InterruptedException, ClassNotFoundException {
-        commandReceiver.replace_if_greater(args, in);
+        if (args.length>1){
+            commandReceiver.replace_if_greater(args, in);
+        }else {
+            System.out.println("Enter file name after command");
+        }
     }
 }
