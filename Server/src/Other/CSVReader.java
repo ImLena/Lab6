@@ -46,8 +46,5 @@ public class CSVReader{
         }
     }
 
-    public Date getTime() {
-        return initdate;
-    }
 
 }

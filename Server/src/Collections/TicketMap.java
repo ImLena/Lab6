@@ -66,8 +66,8 @@ public class TicketMap implements Comparable<Ticket>, Serializable {
     }
 
 
-    public static void setId(Long id) {
-        id = id;
+    public static void setId(Long ID) {
+        id = ID;
     }
 
     public static LinkedHashMap<Long, Ticket> getTickets() {
@@ -76,6 +76,7 @@ public class TicketMap implements Comparable<Ticket>, Serializable {
 
     public static void clear() {
         Tickets.clear();
+        setId(0L);
     }
 
     public static void info(SocketChannel channel) throws IOException {
@@ -178,4 +179,5 @@ public class TicketMap implements Comparable<Ticket>, Serializable {
         return (name + ", " + coordinates.getX() + ", " + coordinates.getY() + ", " + price + ", " + type + ", " + person.getHeight() + ", " + location.getX() + ", " + location.getY() + ", " + location.getZ() + ", " + location.getName() + "\n");
 
     }
+
 }

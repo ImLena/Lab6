@@ -9,17 +9,17 @@ import Other.ReadCommand;
 import java.io.*;
 import java.net.BindException;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Iterator;
-import java.util.Scanner;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
 
 /**
  * класс, реализующий сервер
  */
+
 public class Server {
 
     private static String path;
@@ -31,18 +31,31 @@ public class Server {
 
             Selector selector = Selector.open();
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.bind(new InetSocketAddress(8080));
+            serverSocketChannel.bind(new InetSocketAddress(8089));
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
+
+            if (System.in.available() > 0){
+                BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+                s = r.readLine();
+                readCmd(s);
+            }
+
+
             while (true) {
                 try {
-                    selector.select();
+                    selector.select(700);
                     Set<SelectionKey> selectedKeys = selector.selectedKeys();
                     Iterator<SelectionKey> iter = selectedKeys.iterator();
 
 
 
+                    if (System.in.available() > 0){
+                        BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+                        s = r.readLine();
+                        readCmd(s);
+                    }
                     while (iter.hasNext()) {
                         if (System.in.available() > 0){
                             BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
@@ -60,19 +73,23 @@ public class Server {
                                 readClient(key);
                             }
                             iter.remove();
+
+                        }catch(ClosedSelectorException e){
+                            log.info("client disconnected");
                         } catch (IOException e) {
                             log.info("disconnection");
                             key.cancel();
                             selectedKeys.remove(key);
-                            if (selectedKeys.isEmpty()) {
+                            if (path != null) {
+                                CSVToFile ctf = new CSVToFile();
+                                ctf.csvtofile(TicketMap.getTickets(), path);
+                            }
+                           /* if (selectedKeys.isEmpty()) {
                                 selector.close();
                                 serverSocketChannel.close();
-                                if (path != null) {
-                                    CSVToFile ctf = new CSVToFile();
-                                    ctf.csvtofile(TicketMap.getTickets(), path);
-                                }
 
-                            }
+
+                            }*/
                         }
                     }
 
@@ -99,8 +116,10 @@ public class Server {
             log.info("Server got object");
             if (o instanceof String) {
                 path = (String) o;
-                CSVReader csvr = new CSVReader();
-                csvr.CSVReader(path);
+                if (TicketMap.getTickets().isEmpty()) {
+                    CSVReader csvr = new CSVReader();
+                    csvr.CSVReader(path);
+                }
             } else if (o instanceof ReadCommand) {
                 ReadCommand ob = (ReadCommand) o;
                 command = ob.getComm();
@@ -121,19 +140,25 @@ public class Server {
 
     private static void register(Selector selector, ServerSocketChannel serverSocket)
             throws IOException {
-
         SocketChannel client = serverSocket.accept();
         client.configureBlocking(false);
         client.register(selector, SelectionKey.OP_READ);
         log.info("Client connected");
+
     }
 
-    private static void readCmd(String str){
-        if (str.equals("save")){
-            CSVToFile ctf = new CSVToFile();
+    private static void readCmd(String str) {
+        CSVToFile ctf = new CSVToFile();
+        if (str.equals("save")) {
             ctf.csvtofile(TicketMap.getTickets(), path);
         } else {
-           log.info("Unknown command");
+            if (str.equals("exit")) {
+                ctf = new CSVToFile();
+                ctf.csvtofile(TicketMap.getTickets(), path);
+                System.exit(0);
+            } else {
+                log.info("Unknown command");
+            }
         }
     }
 }
