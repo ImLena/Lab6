@@ -8,7 +8,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Scanner;
 
 public class Client {
-    private static final int serverPort = 8080;
+    private static final int serverPort = 8089;
     private static final String localhost = "127.0.0.1";
     private static SocketChannel channel;
 
@@ -16,6 +16,7 @@ public class Client {
         CommandInvoker commandInvoker = new CommandInvoker();
         channel = null;
         InetSocketAddress ip = new InetSocketAddress(localhost, serverPort);
+
 
         try{
             channel = SocketChannel.open(ip);
@@ -35,6 +36,7 @@ public class Client {
             Command rig = new ReplaceIfGreater(cr);
             Command show = new Show(cr);
             Command update = new Update(cr);
+            Command exit = new Exit(cr);
 
             commandInvoker.addCom("clear", clear);
             commandInvoker.addCom("count_greater_than_price", cgtp);
@@ -50,6 +52,7 @@ public class Client {
             commandInvoker.addCom("replace_if_greater", rig);
             commandInvoker.addCom("show", show);
             commandInvoker.addCom("update", update);
+            commandInvoker.addCom("exit", exit);
             Reader r = new BufferedReader(new InputStreamReader(System.in));
             Scanner in = new Scanner(r);
             writeMessage(channel, args[0]);

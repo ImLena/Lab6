@@ -15,11 +15,12 @@ public class CommandInvoker {
         public void execute(String[] commandName, Scanner in) {
             try {
                 Command command = commands.get(commandName[0]);
-                if (commandName[0].equals("exit")) {
+                /*if (commandName[0].equals("exit")) {
+                    command.execute(commandName, in);
                     System.out.println("Channel is closed. good bye!");
                     Client.closeChannel();
                     System.exit(0);
-                }
+                }*/
                 command.execute(commandName, in);
                 if (count < 11) {
                     history.offer(commandName[0]);

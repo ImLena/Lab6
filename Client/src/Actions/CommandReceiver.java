@@ -198,4 +198,11 @@ public class CommandReceiver{
             System.out.println("Unknown error, aliens have taken over the program");
         }
     }
+
+    public void exit() throws IOException {
+        System.out.println("Channel is closed. good bye!");
+        Client.closeChannel();
+        System.exit(0);
+    }
+
 }
